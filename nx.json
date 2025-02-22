@@ -1,61 +1,43 @@
 {
-  "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "namedInputs": {
-    "default": ["{projectRoot}/**/*", "sharedGlobals"],
-    "production": [
-      "default",
-      "!{projectRoot}/.eslintrc.json",
-      "!{projectRoot}/eslint.config.mjs",
-      "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
-      "!{projectRoot}/tsconfig.spec.json",
-      "!{projectRoot}/src/test-setup.[jt]s"
-    ],
-    "sharedGlobals": ["{workspaceRoot}/.github/workflows/ci.yml"]
+  "npmScope": "second",
+  "implicitDependencies": {
+    "workspace.json": "*",
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
+    "tsconfig.json": "*",
+    "tslint.json": "*",
+    "nx.json": "*"
   },
-  "nxCloudId": "67ba20d66ee43f54152c771d",
-  "plugins": [
-    {
-      "plugin": "@nx/eslint/plugin",
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/workspace/tasks-runners/default",
       "options": {
-        "targetName": "lint"
-      }
-    },
-    {
-      "plugin": "@nx/rsbuild",
-      "options": {
-        "buildTargetName": "build",
-        "devTargetName": "dev",
-        "previewTargetName": "preview",
-        "inspectTargetName": "inspect",
-        "typecheckTargetName": "typecheck",
-        "buildDepsTargetName": "build-deps",
-        "watchDepsTargetName": "watch-deps"
-      }
-    },
-    {
-      "plugin": "@nx/vite/plugin",
-      "options": {
-        "buildTargetName": "build",
-        "testTargetName": "test",
-        "serveTargetName": "serve",
-        "devTargetName": "dev",
-        "previewTargetName": "preview",
-        "serveStaticTargetName": "serve-static",
-        "typecheckTargetName": "typecheck",
-        "buildDepsTargetName": "build-deps",
-        "watchDepsTargetName": "watch-deps"
-      }
-    },
-    {
-      "plugin": "@nx/playwright/plugin",
-      "options": {
-        "targetName": "e2e"
+        "cacheableOperations": ["build", "lint", "test", "e2e"]
       }
     }
-  ],
-  "targetDefaults": {
-    "e2e-ci--**/*": {
-      "dependsOn": ["^build"]
+  },
+  "projects": {
+    "my-lib": {
+      "tags": []
+    },
+    "my-app": {
+      "tags": []
+    },
+    "my-app-e2e": {
+      "tags": [],
+      "implicitDependencies": ["my-app"]
+    },
+    "my-lib2": {
+      "tags": []
+    },
+    "my-app2": {
+      "tags": []
+    },
+    "my-app2-e2e": {
+      "tags": [],
+      "implicitDependencies": ["my-app2"]
     }
   }
 }
