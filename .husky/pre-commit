@@ -1,0 +1,15 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "=== Python checks in apps/backend ==="
+# shellcheck disable=SC2164
+cd apps/backend
+# If you use `pre-commit` (Python tool) with .pre-commit-config.yaml
+pre-commit run --all-files
+cd ../..
+
+echo "=== Vue/JS lint in apps/frontend ==="
+# shellcheck disable=SC2164
+cd apps/frontend
+pnpm run lint
+cd ../..
