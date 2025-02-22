@@ -3,12 +3,31 @@ name = "demo-real-world"
 version = "0.1.0"
 description = "Demo App of RealWorld"
 authors = ["Andriy Sydorenko <sidorenkoandrij217@gmail.com>"]
-license = { file = "LICENSE" }
+license = "MIT"
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
+fastapi = {extras = ["all"], version = "^0.115.8"}
+sqlalchemy = "^2.0.38"
 
+[tool.black]
+line-length = 119
+target-version = ['py312']
+include = '\.py$'
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | \.alembic
+)/
+'''
+
+[tool.isort]
+profile = "black"
 
 [build-system]
 requires = ["poetry-core"]
