@@ -11,6 +11,9 @@ python = "^3.12"
 fastapi = {extras = ["all"], version = "^0.115.8"}
 sqlalchemy = "^2.0.38"
 alembic = "^1.14.1"
+black = "^25.1.0"
+isort = "^6.0.0"
+flake8 = "^7.1.2"
 
 [tool.black]
 line-length = 119
