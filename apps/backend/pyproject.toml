@@ -16,6 +16,9 @@ isort = "^6.0.0"
 flake8 = "^7.1.2"
 asyncpg = "^0.30.0"
 psycopg2 = {extras = ["binary"], version = "^2.9.10"}
+pyjwt = "^2.10.1"
+cryptography = "^44.0.1"
+argon2-cffi = "^23.1.0"
 
 [tool.black]
 line-length = 119

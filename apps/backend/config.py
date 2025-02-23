@@ -1,18 +1,20 @@
 from pydantic_settings import BaseSettings
 
-from utils import EnvParser
-
-env = EnvParser()
-
 
 class Settings(BaseSettings):
     app_name: str = "Demo App of RealWorld"
-    admin_email: str = env.str("ADMIN_EMAIL", "admin@example.com")
-    database_host: str = env.str("DATABASE_HOST", "localhost")
-    database_port: int = env.int("DATABASE_PORT", 5432)
-    database_name: str = env.str("DATABASE_NAME", "db_name")
-    database_user: str = env.str("DATABASE_USER", "some_name")
-    database_password: str = env.str("DATABASE_PASSWORD", "some_password")
+    admin_email: str = "admin@example.com"
+    database_host: str = "localhost"
+    database_port: int = 5432
+    database_name: str = "db_name"
+    database_user: str = "some_name"
+    database_password: str = "some_password"
+
+    # TODO: Make key and iv generate automatically on each server start
+    aes_key: str = "invalid_aes_key"
+    aes_iv: str = "invalid_aes_iv"
+    jwt_secret: str = "invalid_jwt_secret"
+    token_expire_minutes: int = 60 * 24
 
     @property
     def db_creds(self) -> str:
@@ -32,4 +34,3 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
-print(settings.sync_db_url)
