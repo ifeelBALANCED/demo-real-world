@@ -32,7 +32,7 @@ def create_jwt(user: User):
     return base64.urlsafe_b64encode(encrypted_token).decode()
 
 
-def decrypt_jwt(token: str = Depends(oauth2_scheme)):
+async def decrypt_jwt(token: str = Depends(oauth2_scheme)) -> User:
     try:
         encrypted_token = base64.urlsafe_b64decode(token)
 
@@ -41,7 +41,8 @@ def decrypt_jwt(token: str = Depends(oauth2_scheme)):
         decrypted_token = decryptor.update(encrypted_token) + decryptor.finalize()
 
         token = decrypted_token.decode().rstrip()
-        return jwt.decode(token, settings.jwt_secret, algorithms=["HS256"])
+        decoded = jwt.decode(token, settings.jwt_secret, algorithms=["HS256"])
+        return await User.get(uuid=decoded["user_uuid"])
     except jwt.ExpiredSignatureError:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Token expired")
     except Exception:

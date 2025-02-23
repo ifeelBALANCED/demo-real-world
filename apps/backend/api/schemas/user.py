@@ -5,6 +5,10 @@ from pydantic import BaseModel, field_validator
 class RegisterUser(BaseModel):
     email: str
     password: str
+    username: str
+
+    # TODO: Add validation for username
+    # TODO: Improve email validation
 
     @field_validator("email")
     def validate_email(cls, email: str) -> str:
@@ -29,3 +33,15 @@ class RegisterUser(BaseModel):
                 status_code=status.HTTP_400_BAD_REQUEST, detail="Password must contain at least one letter"
             )
         return password
+
+
+class LoginUser(BaseModel):
+    email: str
+    password: str
+
+    # TODO: Make common validators for email and password
+
+
+class UpdateUser(BaseModel):
+    password: str
+    username: str
