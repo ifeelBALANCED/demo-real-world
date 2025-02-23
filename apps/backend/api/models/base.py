@@ -76,11 +76,13 @@ class BaseModel(Base):
         return instance
 
     async def update(self, **fields) -> "BaseModel":
-        db_session = await self.__class__._get_db_session()
+        db_session = await self._get_db_session()
         try:
+            # Add an object to the session for SQLAlchemy to consider it persistent
             for key, value in fields.items():
                 if hasattr(self, key):
                     setattr(self, key, value)
+            self = await db_session.merge(self)
             await db_session.commit()
             await db_session.refresh(self)
         except IntegrityError as e:

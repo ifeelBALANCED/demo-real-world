@@ -16,6 +16,10 @@ class Settings(BaseSettings):
     jwt_secret: str = "invalid_jwt_secret"
     token_expire_minutes: int = 60 * 24
 
+    cloudinary_cloud_name: str = "invalid_cloud_name"
+    cloudinary_api_key: str = "invalid_api_key"
+    cloudinary_api_secret: str = "invalid_api_secret"
+
     @property
     def db_creds(self) -> str:
         return f"{self.database_user}:{self.database_password}@{self.database_host}:{self.database_port}/{self.database_name}"  # noqa
@@ -34,3 +38,4 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
+print(settings.dict())

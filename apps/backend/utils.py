@@ -38,3 +38,12 @@ class EnvParser:
             items = [item.split("=") for item in value.split(",")]
             return {key.strip(): val.strip() for key, val in items}
         return default
+
+
+def convert_bytes_to_mb(file_size):
+    """
+    1 MB = 1000^2 bytes
+    1 MiB = 1024^2 bytes
+    https://stackoverflow.com/questions/2365100/converting-bytes-to-megabytes
+    """
+    return float(file_size / (1000**2))
