@@ -1,4 +1,3 @@
-from fastapi import HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -20,8 +19,8 @@ async def get_db():
         try:
             yield session
             await session.commit()
-        except Exception as e:
+        except Exception as e:  # noqa
             await session.rollback()
-            raise HTTPException(status_code=500, detail="Database error") from e
+            raise  # HTTPException(status_code=500, detail=f"Database error: {e}")
         finally:
             await session.close()
