@@ -2,21 +2,19 @@ from fastapi import HTTPException, status
 from pydantic import BaseModel, field_validator
 
 
-class RegisterUser(BaseModel):
-    email: str
-    password: str
-    username: str
+class CommonUserFieldsValidatorMixin:
+    """Mixin class for reusable Pydantic field validators."""
 
     # TODO: Add validation for username
     # TODO: Improve email validation
 
-    @field_validator("email")
+    @field_validator("email", check_fields=False)
     def validate_email(cls, email: str) -> str:
         if not email:
             raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Email is required")
         return email
 
-    @field_validator("password")
+    @field_validator("password", check_fields=False)
     def validate_password(cls, password: str) -> str:
         if not password:
             raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Password is required")
@@ -34,14 +32,24 @@ class RegisterUser(BaseModel):
             )
         return password
 
+    @field_validator("username", check_fields=False)
+    def validate_username(cls, username: str) -> str:
+        return username
 
-class LoginUser(BaseModel):
+
+class RegisterUser(BaseModel, CommonUserFieldsValidatorMixin):
+    email: str
+    password: str
+    username: str
+
+
+class LoginUser(BaseModel, CommonUserFieldsValidatorMixin):
     email: str
     password: str
 
     # TODO: Make common validators for email and password
 
 
-class UpdateUser(BaseModel):
+class UpdateUser(BaseModel, CommonUserFieldsValidatorMixin):
     password: str
     username: str

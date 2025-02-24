@@ -1,8 +1,10 @@
+import cloudinary.uploader
 from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
     app_name: str = "Demo App of RealWorld"
+    app_version: str = "0.1.0"
     admin_email: str = "admin@example.com"
     database_host: str = "localhost"
     database_port: int = 5432
@@ -38,4 +40,9 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
+cloudinary.config(
+    cloud_name=settings.cloudinary_cloud_name,
+    api_key=settings.cloudinary_api_key,
+    api_secret=settings.cloudinary_api_secret,
+)
 print(settings.dict())

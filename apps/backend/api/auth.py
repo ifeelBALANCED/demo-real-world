@@ -15,7 +15,7 @@ AES_KEY = bytes.fromhex(settings.aes_key)
 AES_IV = bytes.fromhex(settings.aes_iv)
 
 
-def create_jwt(user: User):
+def create_jwt(user: User) -> str:
     payload = {
         "user_uuid": str(user.uuid),
         "exp": datetime.now(UTC) + timedelta(minutes=settings.token_expire_minutes),

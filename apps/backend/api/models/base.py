@@ -78,10 +78,12 @@ class BaseModel(Base):
     async def update(self, **fields) -> "BaseModel":
         db_session = await self._get_db_session()
         try:
-            # Add an object to the session for SQLAlchemy to consider it persistent
             for key, value in fields.items():
                 if hasattr(self, key):
                     setattr(self, key, value)
+
+            # Merge an object to the session for SQLAlchemy to consider it persistent
+            # TODO: Check if this is the best way to handle this(prolly not?)
             self = await db_session.merge(self)
             await db_session.commit()
             await db_session.refresh(self)
