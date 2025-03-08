@@ -1,3 +1,5 @@
+from typing import Optional
+
 from fastapi import HTTPException, status
 from pydantic import BaseModel, field_validator
 
@@ -50,6 +52,18 @@ class LoginUser(BaseModel, CommonUserFieldsValidatorMixin):
     # TODO: Make common validators for email and password
 
 
+class LoginResponse(BaseModel):
+    token: str
+    token_type: str
+
+
 class UpdateUser(BaseModel, CommonUserFieldsValidatorMixin):
     password: str
     username: str
+
+
+class DetailUser(BaseModel):
+    email: str
+    username: str
+    image_url: Optional[str]
+    bio: Optional[str]

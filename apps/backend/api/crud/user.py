@@ -32,7 +32,7 @@ async def update_user(user_data: UpdateUser, image_url: str, user: User) -> User
     return user
 
 
-async def verify_user_and_create_jwt(user_data: LoginUser) -> bool:
+async def verify_user_and_create_jwt(user_data: LoginUser) -> str:
     try:
         user = await User.get(email=user_data.email)
         ph.verify(user.hashed_password, user_data.password)

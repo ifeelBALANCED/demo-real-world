@@ -14,6 +14,7 @@ from api.exceptions import (
 from engine import Base, get_db
 
 
+# TODO: Consider using repositories (check README.md) instead of this ORM wrapper
 class BaseModel(Base):
     __abstract__ = True  # This makes BaseModel an abstract class, not a table
 
@@ -22,6 +23,13 @@ class BaseModel(Base):
         async for session in get_db():
             return session
         raise Exception("Could not retrieve database session")
+
+    @classmethod
+    async def all(cls):
+        db_session = await cls._get_db_session()
+        query = select(cls)
+        result = await db_session.execute(query)
+        return result.scalars().all()
 
     @classmethod
     async def filter(cls, **fields) -> Sequence:
